@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <title>To‘lov usuli grafiklari</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f5f7fb;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .chart-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 320px;
+      text-align: center;
+    }
+    .chart-card h3 {
+      margin-bottom: 15px;
+      font-size: 18px;
+      color: #333;
+    }
+    canvas {
+      width: 100% !important;
+      height: 260px !important;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="chart-card">
+    <h3>Kirim to‘lov usullari</h3>
+    <canvas id="kirimTolovChart"></canvas>
+  </div>
+
+  <div class="chart-card">
+    <h3>Xarajat to‘lov usullari</h3>
+    <canvas id="xarajatTolovChart"></canvas>
+  </div>
+
+  <!-- Django json_script -->
+  {{ kirim_labels|json_script:"kirimLabels" }}
+  {{ kirim_data|json_script:"kirimData" }}
+  {{ xarajat_labels|json_script:"xarajatLabels" }}
+  {{ xarajat_data|json_script:"xarajatData" }}
+
+  <script>
+    const kirimLabels = JSON.parse(document.getElementById('kirimLabels').textContent);
+    const kirimData = JSON.parse(document.getElementById('kirimData').textContent);
+    const xarajatLabels = JSON.parse(document.getElementById('xarajatLabels').textContent);
+    const xarajatData = JSON.parse(document.getElementById('xarajatData').textContent);
+
+    // Kirim grafigi
+    new Chart(document.getElementById('kirimTolovChart'), {
+      type: 'doughnut',
+      data: {
+        labels: kirimLabels,
+        datasets: [{
+          data: kirimData,
+          backgroundColor: ['#4caf50', '#2196f3', '#ff9800'],
+          borderColor: '#fff',
+          borderWidth: 2
+        }]
+      },
+      options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+    });
+
+    // Xarajat grafigi
+    new Chart(document.getElementById('xarajatTolovChart'), {
+      type: 'doughnut',
+      data: {
+        labels: xarajatLabels,
+        datasets: [{
+          data: xarajatData,
+          backgroundColor: ['#f44336', '#9c27b0', '#03a9f4'],
+          borderColor: '#fff',
+          borderWidth: 2
+        }]
+      },
+      options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+    });
+  </script>
+
+  <p style="text-align:center; margin-top:20px;">
+    <a href="{% url 'home' %}" style="color:#005bbb; text-decoration:none;">⬅ Orqaga</a>
+  </p>
+
+</body>
+</html>

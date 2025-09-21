@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Daromad - Xarajat (Mockup)</title>
+  <style>
+    :root{
+      --blue: #1e88e5;
+      --green: #4caf50;
+      --red: #f44336;
+      --orange: #ff9800;
+      --teal: #00bcd4;
+      --light: #f5f7fb;
+      --card-bg: #ffffff;
+      --muted: #777;
+      --border: #e0e6ef;
+      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(#f2f6fb,#eef4fb);color:#222;}
+    /* Header */
+    .topbar{display:flex;align-items:center;gap:12px;background:var(--blue);color:#fff;padding:14px;position:sticky;top:0;z-index:20;}
+    .hamburger{width:28px; height:18px; display:inline-block;}
+    .hamburger::before,.hamburger::after,.hamburger span{content:"";display:block;height:3px;background:rgba(255,255,255,.95);margin:4px 0;border-radius:3px;}
+    .title{font-weight:700; font-size:18px}
+    .bell{margin-left:auto;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.12);}
+    .container{padding:14px;max-width:420px;margin:0 auto;}
+    /* Banner */
+    .banner{background:var(--card-bg);border-radius:10px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,0.06);display:flex;gap:8px;align-items:center;margin-top:12px;}
+    .banner p{margin:0; font-size:14px; color:#333; flex:1}
+    .btn-outline, .btn-primary{padding:8px 12px;border-radius:6px;border:1px solid var(--border);font-weight:600;cursor:pointer;background:transparent;}
+    .btn-primary{background:var(--blue);color:#fff;border:0;}
+    /* Tabs */
+    .tabs{display:flex;gap:18px;margin-top:14px;align-items:end;}
+    .tab{font-weight:700;padding-bottom:6px;color:var(--muted);}
+    .tab.active{color:var(--blue);border-bottom:3px solid var(--blue);padding-bottom:4px;}
+    /* Grid */
+    .grid{display:grid;grid-template-columns: 1fr 1fr;gap:10px;margin-top:14px;}
+    .card{padding:14px;border-radius:10px;color:#fff;font-weight:700;text-align:center;min-height:56px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(40,40,80,0.04);cursor:pointer;}
+    .card.light{background:#fff;color:#333;font-weight:600;box-shadow:none;border:1px solid var(--border);}
+    .green{background:var(--green)}.red{background:var(--red)}.orange{background:var(--orange)}.teal{background:var(--teal)}
+    /* Table summary */
+    .summary{background:var(--card-bg);margin-top:14px;border-radius:8px;overflow:hidden;border:1px solid var(--border);}
+    .date-range{padding:8px 12px;background: #fff;font-size:13px;font-weight:700;border-bottom:1px solid var(--border);text-align:center;}
+    .summary-table{width:100%;border-collapse:collapse;font-size:14px;background:#fff;}
+    .summary-table td, .summary-table th{border:1px solid var(--border);padding:10px;text-align:center;}
+    .summary-table th{font-weight:700}
+    .t-left{color:#2e7d32}.t-mid{color:#d32f2f}.t-right{color:#333}
+    .prev-balance, .total-balance{padding:10px;border-top:1px solid var(--border);text-align:center;background:#fafafa;font-weight:700;}
+    /* Recent transactions */
+    .section{margin-top:14px;background:var(--card-bg);border-radius:8px;padding:10px;border:1px solid var(--border);}
+    .section h3{margin:0 0 6px 0;font-size:16px}
+    /* Floating add button */
+    .fab{position:fixed;right:18px;bottom:90px;width:56px;height:56px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;color:#fff;font-size:30px;box-shadow:0 8px 20px rgba(30,100,200,0.18);border:4px solid #fff;cursor:pointer;}
+    /* Footer */
+    .footer{height:56px;margin-top:40px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:12px;}
+    /* Narrative menu */
+    .narrative{display:none;margin-top:20px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px}
+    .narrative h3{margin:0 0 10px;font-size:16px}
+    .narrative ul{margin:0;padding:0;list-style:none}
+    .narrative li{padding:8px 6px;border-bottom:1px solid #eee;font-size:14px;font-weight:500}
+    .narrative li:last-child{border-bottom:0}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="hamburger"><span></span></div>
+    <div class="title">Daromad - Xarajat</div>
+    <div class="bell">🔔</div>
+  </div>
+
+  <div class="container">
+    <!-- Banner -->
+    <div class="banner">
+      <p>Google Disk uchun zaxira nusxa ko'chirish va tiklashni yoqish</p>
+      <button class="btn-outline" style="margin-right:8px;">O'tkazib yuborish</button>
+      <button class="btn-primary">Yoqish</button>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <div class="tab active">Bosh sahifa</div>
+      <a href="{% url 'kalendar' %}" class="tab">Kalendar</a>
+    </div>
+
+    <!-- Action buttons grid -->
+    <div class="grid">
+      <a href="{% url 'kirim' %}" class="card red">Daromad qo'shish</a>
+      <a href="{% url 'rashod' %}" class="card red">Xarajat qo'shish</a>
+      <a href="{% url 'apiratsya' %}" class="card red">Operatsiyalar</a>
+      <div class="card light" id="moreBtn">Boshqa variantlar</div>
+    </div>
+
+    <!-- Summary table -->
+    <div class="summary">
+      <div class="date-range">01-sent.-2025 → 30-sent.-2025</div>
+      <table class="summary-table">
+        <thead>
+          <tr>
+            <th class="t-left">Daromad</th>
+            <th class="t-mid">Xarajat</th>
+            <th class="t-right">Balans</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="t-left">{{total}}</td>
+            <td class="t-mid">{{xarajat_total}}</td>
+            <td class="t-right">{{balans}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="total-balance">{{balans}} so'm    {{dolor}} $</div>
+    </div>
+
+    <!-- Transactions -->
+    <div class="section">
+      <h3>So'nggi tranzaksiyalar</h3>
+      {% if kirimlar or xarajat %}
+        <ul>
+          {% for k in kirimlar %}
+            <li style="color: green;">
+              Kirim: {{ k.miqdor }} so'm — {{ k.kategoriya }} — {{ k.sana }}
+            </li>
+          {% endfor %}
+        </ul>
+        <ul>
+          {% for x in xarajat %}
+            <li style="color: red;">
+              Xarajat: {{ x.miqdor }} so'm — {{ x.kategoriya }} — {{ x.sana }}
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p style="color: var(--muted); margin: 6px 0 0 0;">Hozircha tranzaksiya yo'q</p>
+      {% endif %}
+    </div>
+
+    <!-- Narrative menu (hidden by default) -->
+    <div class="narrative" id="narrativeMenu">
+      <h3>Bo'limlar</h3>
+      <ul>
+        <li><a href="{% url 'kate-graf' %}" class="clickable">Kategoriya grafiklari</a></li>
+        <li><a href="{% url 'tolov' %}" class="clickable">To'lov usuli</a></li>
+        <li><a href="{% url 'tolov-graf' %}" class="clickable">To'lov usuli grafiklari</a></li>
+
+      </ul>
+    </div>
+
+    <div style="height:80px;"></div>
+    <div class="footer">© 2025 Moliyaviy Hisobot</div>
+  </div>
+
+  <!-- Floating add button -->
+  <div class="fab">+</div>
+
+  <script>
+    const moreBtn = document.getElementById("moreBtn");
+    const narrativeMenu = document.getElementById("narrativeMenu");
+    moreBtn.addEventListener("click", () => {
+      narrativeMenu.style.display = narrativeMenu.style.display === "block" ? "none" : "block";
+    });
+  </script>
+</body>
+</html>

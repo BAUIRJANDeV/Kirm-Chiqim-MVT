@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Xarajat qo‘shish</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f8ff;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 420px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #005bbb;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    textarea {
+      resize: none;
+    }
+    button {
+      background: #007bff;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background: #005bbb;
+    }
+    .success-msg {
+      background: #d4edda;
+      color: #155724;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      display: none;
+      text-align: center;
+    }
+    .errorlist{ color: #b00020; margin:0 0 8px 0; padding:0; list-style:none; font-size:13px; }
+    .field-row{ margin-bottom:8px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Xarajat qo‘shish</h2>
+
+    <div id="success" class="success-msg">Ma'lumot muvaffaqiyatli saqlandi!</div>
+
+    <form method="post" id="xarajatForm">
+      {% csrf_token %}
+
+      <!-- MIQDOR -->
+      <div class="field-row">
+        <label for="id_miqdor">Xarajat summasi</label>
+        {{ forma.miqdor }}
+        {{ forma.miqdor.errors }}
+      </div>
+
+      <!-- KATEGORIYA -->
+      <div class="field-row">
+        <label for="id_kategoriya">Kategoriya</label>
+        {{ forma.kategoriya }}
+        {{ forma.kategoriya.errors }}
+      </div>
+
+      <!-- MAQSAD -->
+      <div class="field-row">
+        <label for="id_maqsad">Xarajat maqsadi</label>
+        <select id="id_maqsad" name="maqsad" required>
+          <option value="">-- Tanlang --</option>
+          <option value="ovqat">🍔 Ovqat</option>
+          <option value="mashina">🚗 Mashina</option>
+          <option value="suv">💧 Suv</option>
+          <option value="uy">🏠 Uy</option>
+          <option value="boshqa">📦 Boshqa</option>
+        </select>
+      </div>
+
+      <!-- TOLOV USULI -->
+      <div class="field-row">
+        <label for="id_tolov_usuli">tolov_usuli</label>
+        {{ forma.tolov_usuli }}
+        {{ forma.tolov_usuli.errors }}
+      </div>
+
+      <!-- IZOHLAR -->
+      <div class="field-row">
+        <label for="id_izoh">Izoh (ixtiyoriy)</label>
+        {{ forma.izoh }}
+        {{ forma.izoh.errors }}
+      </div>
+
+      <!-- SANA -->
+      <div class="field-row">
+        <label for="id_sana">Sana</label>
+        {{ forma.sana }}
+        {{ forma.sana.errors }}
+      </div>
+
+      <!-- VAQT -->
+      <div class="field-row">
+        <label for="id_vaqt">Vaqt</label>
+        {{ forma.vaqt }}
+        {{ forma.vaqt.errors }}
+      </div>
+
+      <!-- TAKROR -->
+      <div class="field-row">
+        <label for="id_takroriymi">Takrorlansinmi?</label>
+        {{ forma.takroriymi }}
+        {{ forma.takroriymi.errors }}
+      </div>
+
+      <!-- ESLATMA -->
+      <div class="field-row">
+        <label for="id_eslatma">Eslatma (ixtiyoriy)</label>
+        {{ forma.eslatma }}
+        {{ forma.eslatma.errors }}
+      </div>
+
+      <button type="submit">Saqlash</button>
+    </form>
+
+    <p style="text-align:center; margin-top:12px;">
+      <a href="{% url 'home' %}" style="color:#005bbb; text-decoration:none;">⬅ Orqaga</a>
+    </p>
+  </div>
+
+  <script>
+    (function() {
+      function two(n){ return n<10? '0'+n : n; }
+      const now = new Date();
+      const yyyy = now.getFullYear();
+      const mm = two(now.getMonth()+1);
+      const dd = two(now.getDate());
+      const hh = two(now.getHours());
+      const min = two(now.getMinutes());
+      const today = `${yyyy}-${mm}-${dd}`;
+      const currentTime = `${hh}:${min}`;
+
+      const sanaInput = document.getElementById('id_sana');
+      const vaqtInput = document.getElementById('id_vaqt');
+
+      if (sanaInput && !sanaInput.value) {
+        sanaInput.value = today;
+      }
+      if (vaqtInput && !vaqtInput.value) {
+        vaqtInput.value = currentTime;
+      }
+
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('saved') === '1') {
+        const success = document.getElementById('success');
+        if (success) {
+          success.style.display = 'block';
+          setTimeout(()=> success.style.display = 'none', 3000);
+        }
+      }
+    })();
+  </script>
+</body>
+</html>

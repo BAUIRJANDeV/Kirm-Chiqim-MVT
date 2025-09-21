@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kirim qo‘shish</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f8ff;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 420px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #005bbb;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    textarea {
+      resize: none;
+    }
+    button {
+      background: #007bff;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background: #005bbb;
+    }
+    .success-msg {
+      background: #d4edda;
+      color: #155724;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      display: none;
+      text-align: center;
+    }
+
+    /* Django error list styling (keeps design) */
+    .errorlist{ color: #b00020; margin:0 0 8px 0; padding:0; list-style:none; font-size:13px; }
+    .field-row{ margin-bottom:8px; }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Kirim qo‘shish</h2>
+
+    <!-- bu success div view redirect qilsa kerakmas, lekin dizayn uchun qoldirdim -->
+    <div id="success" class="success-msg">Ma'lumot muvaffaqiyatli saqlandi!</div>
+
+    <!-- Django form -->
+    <form method="post" id="kirimForm">
+      {% csrf_token %}
+
+      <!-- MIQDOR -->
+      <div class="field-row">
+        <label for="id_miqdor">Kirim</label>
+        {{ forma.miqdor }}
+        {% if forma.miqdor.errors %}
+          {{ forma.miqdor.errors }}
+        {% endif %}
+      </div>
+
+      <!-- KATEGORIYA -->
+      <div class="field-row">
+        <label for="id_kategoriya">Kategoriya</label>
+        {{ forma.kategoriya }}
+        {% if forma.kategoriya.errors %}
+          {{ forma.kategoriya.errors }}
+        {% endif %}
+      </div>
+
+      <!-- TOLOV USULI -->
+      <div class="field-row">
+        <label for="id_tolov_usuli">tolov_usuli</label>
+        {{ forma.tolov_usuli }}
+        {% if forma.tolov_usuli.errors %}
+          {{ forma.tolov_usuli.errors }}
+        {% endif %}
+      </div>
+
+      <!-- IZOHLAR -->
+      <div class="field-row">
+        <label for="id_izoh">Izoh (ixtiyoriy)</label>
+        {{ forma.izoh }}
+        {% if forma.izoh.errors %}
+          {{ forma.izoh.errors }}
+        {% endif %}
+      </div>
+
+      <!-- SANA (agar bo'sh bo'lsa JS bilan avtomatik to'ldiriladi) -->
+      <div class="field-row">
+        <label for="id_sana">Sana</label>
+        {{ forma.sana }}
+        {% if forma.sana.errors %}
+          {{ forma.sana.errors }}
+        {% endif %}
+      </div>
+
+      <!-- VAQT (agar bo'sh bo'lsa JS bilan avtomatik to'ldiriladi) -->
+      <div class="field-row">
+        <label for="id_vaqt">Vaqt</label>
+        {{ forma.vaqt }}
+        {% if forma.vaqt.errors %}
+          {{ forma.vaqt.errors }}
+        {% endif %}
+      </div>
+
+      <!-- TAKRORIYMI -->
+      <div class="field-row">
+        <label for="id_takroriymi">Takrorlansinmi?</label>
+        {{ forma.takroriymi }}
+        {% if forma.takroriymi.errors %}
+          {{ forma.takroriymi.errors }}
+        {% endif %}
+      </div>
+
+      <!-- ESLATMA -->
+      <div class="field-row">
+        <label for="id_eslatma">Eslatma (ixtiyoriy)</label>
+        {{ forma.eslatma }}
+        {% if forma.eslatma.errors %}
+          {{ forma.eslatma.errors }}
+        {% endif %}
+      </div>
+
+      <button type="submit">Saqlash</button>
+    </form>
+
+    <p style="text-align:center; margin-top:12px;">
+      <a href="{% url 'home' %}" style="color:#005bbb; text-decoration:none;">⬅ Orqaga</a>
+    </p>
+  </div>
+
+  <script>
+    // Sahifa yuklanganda sana va vaqt maydonlari bo'sh bo'lsa avtomatik doldirish
+    (function() {
+      // yordamchi: ikki xonali format
+      function two(n){ return n<10? '0'+n : n; }
+
+      // bugungi sana YYYY-MM-DD
+      const now = new Date();
+      const yyyy = now.getFullYear();
+      const mm = two(now.getMonth()+1);
+      const dd = two(now.getDate());
+      const hh = two(now.getHours());
+      const min = two(now.getMinutes());
+
+      const today = `${yyyy}-${mm}-${dd}`;
+      const currentTime = `${hh}:${min}`;
+
+      // Django form maydonlari id'lari: id_sana va id_vaqt (ModelForm default)
+      const sanaInput = document.getElementById('id_sana');
+      const vaqtInput = document.getElementById('id_vaqt');
+
+      if (sanaInput && !sanaInput.value) {
+        sanaInput.value = today;
+      }
+      if (vaqtInput && !vaqtInput.value) {
+        vaqtInput.value = currentTime;
+      }
+
+      // Success xabarini ko'rsatish: agar view redirect qilmay, success param qo'yadigan bo'lsa,
+      // siz uni URL query orqali yuborishingiz mumkin (masalan ?saved=1).
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('saved') === '1') {
+        const success = document.getElementById('success');
+        if (success) {
+          success.style.display = 'block';
+          setTimeout(()=> success.style.display = 'none', 3000);
+        }
+      }
+    })();
+  </script>
+</body>
+</html>

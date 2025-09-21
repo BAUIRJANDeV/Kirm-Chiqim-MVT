@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kategoriya Grafiklari</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f5f7fb;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .chart-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 300px;
+      text-align: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .chart-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    .chart-card h3 {
+      margin-bottom: 15px;
+      font-size: 18px;
+      color: #333;
+    }
+    canvas {
+      width: 100% !important;
+      height: 250px !important;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="chart-card">
+    <h3>Xarajatlar</h3>
+    <canvas id="xarajatChart"></canvas>
+  </div>
+
+  <div class="chart-card">
+    <h3>Kirimlar</h3>
+    <canvas id="kirimChart"></canvas>
+  </div>
+
+  <script>
+    const xarajatCtx = document.getElementById('xarajatChart').getContext('2d');
+    const xarajatChart = new Chart(xarajatCtx, {
+      type: 'doughnut',
+      data: {
+        labels: {{ xarajat_labels|safe }},
+        datasets: [{
+          data: {{ xarajat_data|safe }},
+          backgroundColor: ['#f44336', '#ff9800', '#2196f3', '#4caf50', '#9c27b0'],
+          borderWidth: 2,
+          borderColor: '#fff'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              font: { size: 13 },
+              padding: 10
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return context.label + ': ' + context.raw.toLocaleString() + " so'm";
+              }
+            }
+          }
+        }
+      }
+    });
+
+    const kirimCtx = document.getElementById('kirimChart').getContext('2d');
+    const kirimChart = new Chart(kirimCtx, {
+      type: 'doughnut',
+      data: {
+        labels: {{ kirim_labels|safe }},
+        datasets: [{
+          data: {{ kirim_data|safe }},
+          backgroundColor: ['#4caf50', '#2196f3', '#ff9800', '#9c27b0', '#009688'],
+          borderWidth: 2,
+          borderColor: '#fff'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              font: { size: 13 },
+              padding: 10
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return context.label + ': ' + context.raw.toLocaleString() + " so'm";
+              }
+            }
+          }
+        }
+      }
+    });
+  </script>
+<a href="{% url 'home' %}" style="color:#005bbb; text-decoration:none;">⬅ Orqaga</a>
+</body>
+</html>

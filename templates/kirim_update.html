@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kirimni o‘zgartirish</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f8ff;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 420px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #28a745;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    button {
+      background: #28a745;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background: #218838;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Kirimni o‘zgartirish</h2>
+
+    <form method="post">
+      {% csrf_token %}
+      {{ forma.as_p }}
+      <button type="submit">Yangilash</button>
+    </form>
+
+    <p style="text-align:center; margin-top:12px;">
+      <a href="{% url 'kirim_detail' kirim.id %}" style="color:#28a745; text-decoration:none;">⬅ Orqaga</a>
+    </p>
+  </div>
+</body>
+</html>
